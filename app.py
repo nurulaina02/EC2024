@@ -1,85 +1,173 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 
-st.set_page_config(
-    page_title="Scientific Visualization"
-)
-
-st.header("Student Survey", divider="gray")
-
-
-# 1. Load Data
-@st.cache_data # Cache the data loading for better performance
+# --- Data Loading ---
+@st.cache_data
 def load_data(url):
-    """Loads the dataset from a URL."""
+    """Loads data from a URL and caches it."""
     try:
         df = pd.read_csv(url)
         return df
     except Exception as e:
-        st.error(f"Error loading data from URL: {e}")
+        st.error(f"An error occurred while loading data: {e}")
         return pd.DataFrame() # Return an empty DataFrame on failure
 
 url = 'https://raw.githubusercontent.com/nurulaina02/EC2024/refs/heads/main/student_survey_cleaned.csv'
-arts_df = load_data(url)
+df = load_data(url)
 
-# Set the title of the Streamlit app
-st.title('🎨 Arts Faculty Data Analysis')
+# Set Streamlit page configuration
+st.set_page_config(layout="wide", page_title="Student Survey Analysis")
 
-if not arts_df.empty:
-    st.subheader('Raw Data Preview')
-    st.dataframe(arts_df.head())
+st.title('Student Survey Data Analysis with Plotly and Streamlit')
 
-    # --- 2. Data Processing ---
-    # Calculate gender counts
-    if 'Gender' in arts_df.columns:
-        gender_counts = arts_df['Gender'].value_counts().reset_index()
-        gender_counts.columns = ['Gender', 'Count']
+if not df.empty:
+    st.subheader('Raw Data Head')
+    st.dataframe(df.head())
 
-        st.divider()
-
-        # --- 3. Plotly Visualizations ---
-        st.header('📊 Gender Distribution')
-
-        # 3.1. Plotly Pie Chart (replacing the Matplotlib pie chart)
-        st.subheader('Gender Distribution: Pie Chart')
-        fig_pie = px.pie(
-            gender_counts,
-            values='Count',
-            names='Gender',
-            title='Gender Distribution in Arts Faculty',
-            hole=.3 # Optional: makes it a donut chart
+    # Assuming 'Faculty' column exists and 'Arts' faculty needs to be filtered
+    # This block requires the 'Faculty' column which is not explicitly confirmed in the original code,
+    # but implied by the use of `arts_df`. I'll create a placeholder for it, or use the full df if filtering is not possible.
+    try:
+        # Attempt to filter for 'Arts' Faculty data as in the original script
+        # Note: The exact column name for Faculty might differ. Assuming it's 'Faculty'.
+        arts_df = df[df['Faculty'] == 'Arts']
+    except KeyError:
+        # Fallback if 'Faculty' column is not found or for simplicity/if the filtering isn't crucial for conversion
+        st.warning("Could not find 'Faculty' column to filter 'Arts' data. Using full dataset for 'Gender' plots.")
+        arts_df = df
+    
+    # 1. Gender Distribution (Pie Chart) - Original: Matplotlib Pie Chart on arts_df['Gender']
+    st.subheader('1. Gender Distribution (Arts Faculty/Full Data) - Pie Chart')
+    if not arts_df.empty:
+        gender_counts_arts = arts_df['Gender'].value_counts().reset_index()
+        gender_counts_arts.columns = ['Gender', 'Count']
+        
+        fig_gender_pie = px.pie(
+            gender_counts_arts, 
+            values='Count', 
+            names='Gender', 
+            title='Gender Distribution in Arts Faculty (or Full Data)',
+            hole=.3 # Add a donut shape for better aesthetics
         )
-        st.plotly_chart(fig_pie, use_container_width=True)
-
-        st.divider()
-
-        # 3.2. Plotly Bar Chart (replacing the Matplotlib bar chart)
-        st.subheader('Gender Distribution: Bar Chart')
-        fig_bar = px.bar(
-            gender_counts,
-            x='Gender',
-            y='Count',
-            title='Gender Distribution in Arts Faculty',
-            labels={'Count': 'Number of Individuals'}
-        )
-        # Customize the bar chart appearance
-        fig_bar.update_xaxes(title_text='Gender')
-        fig_bar.update_yaxes(title_text='Count')
-
-        st.plotly_chart(fig_bar, use_container_width=True)
-
+        st.plotly_chart(fig_gender_pie, use_container_width=True)
     else:
-        st.warning("The DataFrame does not contain a 'Gender' column for analysis.")
-else:
-    st.warning("Could not proceed with analysis because the data could not be loaded.")
+        st.info("No 'Arts' faculty data found.")
 
-# --- How to Run the App ---
-st.sidebar.markdown(
-    """
-    *To run this app:*
-    1. Save the code above as a Python file (e.g., app.py).
-    2. Open your terminal and navigate to the directory where you saved the file.
-    3. Run the command: streamlit run app.py
-    """
-)
+
+    # 2. Gender Distribution (Bar Chart) - Original: Matplotlib Bar Chart on arts_df['Gender']
+    st.subheader('2. Gender Distribution (Arts Faculty/Full Data) - Bar Chart')
+    if not arts_df.empty:
+        # Reuse gender_counts_arts from above
+        fig_gender_bar = px.bar(
+            gender_counts_arts,
+            x='Gender', 
+            y='Count', 
+            title='Gender Distribution in Arts Faculty (or Full Data)',
+            text='Count' # Display count on bars
+        )
+        fig_gender_bar.update_traces(textposition='outside')
+        st.plotly_chart(fig_gender_bar, use_container_width=True)
+
+
+    # 3. Coaching Center Attendance (Pie Chart) - Original: Matplotlib Pie Chart on df['Did you ever attend a Coaching center?']
+    st.subheader('3. Coaching Center Attendance')
+    coaching_col = 'Did you ever attend a Coaching center?'
+    if coaching_col in df.columns:
+        coaching_counts = df[coaching_col].value_counts().reset_index()
+        coaching_counts.columns = [coaching_col, 'Count']
+        
+        fig_coaching = px.pie(
+            coaching_counts, 
+            values='Count', 
+            names=coaching_col, 
+            title='Did students attend a coaching center?',
+            color=coaching_col # Auto-assign different colors
+        )
+        st.plotly_chart(fig_coaching, use_container_width=True)
+    else:
+        st.warning(f"Column '{coaching_col}' not found in data.")
+
+
+    # 4. Study Medium Distribution (Bar Chart) - Original: Matplotlib Bar Chart on df['H.S.C or Equivalent study medium']
+    st.subheader('4. Distribution of H.S.C or Equivalent Study Medium')
+    study_medium_col = 'H.S.C or Equivalent study medium'
+    if study_medium_col in df.columns:
+        study_medium_counts = df[study_medium_col].value_counts().reset_index()
+        study_medium_counts.columns = [study_medium_col, 'Count']
+        
+        fig_study_medium = px.bar(
+            study_medium_counts,
+            x=study_medium_col, 
+            y='Count', 
+            title='Distribution of H.S.C or Equivalent Study Medium'
+        )
+        fig_study_medium.update_layout(xaxis_title='Study Medium', xaxis={'categoryorder':'total descending'})
+        st.plotly_chart(fig_study_medium, use_container_width=True)
+    else:
+        st.warning(f"Column '{study_medium_col}' not found in data.")
+
+
+    # 5. H.S.C (GPA) Distribution (Histogram) - Original: Matplotlib Histogram on df['H.S.C (GPA)']
+    st.subheader('5. Distribution of H.S.C (GPA)')
+    hsc_gpa_col = 'H.S.C (GPA)'
+    if hsc_gpa_col in df.columns:
+        # Drop NaN values for the histogram as in the original code
+        gpa_data = df[hsc_gpa_col].dropna()
+        
+        fig_hsc_gpa = px.histogram(
+            gpa_data,
+            x=hsc_gpa_col,
+            nbins=20, # Use nbins parameter for number of bins
+            title='Distribution of H.S.C (GPA)'
+        )
+        fig_hsc_gpa.update_layout(xaxis_title='H.S.C (GPA)', yaxis_title='Frequency')
+        st.plotly_chart(fig_hsc_gpa, use_container_width=True)
+    else:
+        st.warning(f"Column '{hsc_gpa_col}' not found in data.")
+
+
+    # 6. S.S.C (GPA) Distribution (Histogram) - Original: Matplotlib Histogram on df['S.S.C (GPA)']
+    st.subheader('6. Distribution of S.S.C (GPA)')
+    ssc_gpa_col = 'S.S.C (GPA)'
+    if ssc_gpa_col in df.columns:
+        # Drop NaN values for the histogram as in the original code
+        gpa_data = df[ssc_gpa_col].dropna()
+        
+        fig_ssc_gpa = px.histogram(
+            gpa_data,
+            x=ssc_gpa_col,
+            nbins=20, 
+            title='Distribution of S.S.C (GPA)'
+        )
+        fig_ssc_gpa.update_layout(xaxis_title='S.S.C (GPA)', yaxis_title='Frequency')
+        st.plotly_chart(fig_ssc_gpa, use_container_width=True)
+    else:
+        st.warning(f"Column '{ssc_gpa_col}' not found in data.")
+
+
+    # 7. Bachelor Academic Year Distribution (Bar Chart) - Original: Matplotlib Bar Chart on df['Bachelor Academic Year in EU']
+    st.subheader('7. Distribution of Academic Years (Bachelor)')
+    academic_year_col = 'Bachelor  Academic Year in EU' # Note the non-standard space
+    if academic_year_col in df.columns:
+        academic_year_counts = df[academic_year_col].value_counts().reset_index()
+        academic_year_counts.columns = [academic_year_col, 'Count']
+        
+        fig_academic_year = px.bar(
+            academic_year_counts,
+            x=academic_year_col, 
+            y='Count', 
+            title='Distribution of Academic Years (Bachelor)'
+        )
+        fig_academic_year.update_layout(xaxis_title='Academic Year', xaxis={'categoryorder':'category ascending'})
+        st.plotly_chart(fig_academic_year, use_container_width=True)
+    else:
+        st.warning(f"Column '{academic_year_col}' not found in data.")
+
+else:
+    st.error("Failed to load data. Please check the URL and file.")
+
+# To run this app:
+# 1. Save the code above as a Python file (e.g., app.py).
+# 2. Run it from your terminal using: streamlit run app.py
