@@ -2,6 +2,13 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+st.set_page_config(
+    page_title="Scientific Visualization"
+)
+
+st.header("Genetic Algorithm", divider="gray")
+
+
 # 1. Load Data
 @st.cache_data # Cache the data loading for better performance
 def load_data(url):
@@ -70,9 +77,9 @@ else:
 # --- How to Run the App ---
 st.sidebar.markdown(
     """
-    **To run this app:**
-    1. Save the code above as a Python file (e.g., `app.py`).
+    *To run this app:*
+    1. Save the code above as a Python file (e.g., app.py).
     2. Open your terminal and navigate to the directory where you saved the file.
-    3. Run the command: `streamlit run app.py`
+    3. Run the command: streamlit run app.py
     """
 )
