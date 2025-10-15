@@ -6,7 +6,7 @@ st.set_page_config(
     page_title="Scientific Visualization"
 )
 
-st.header("Genetic Algorithm", divider="gray")
+st.header("Student Survey", divider="gray")
 
 
 # 1. Load Data
