@@ -13,7 +13,7 @@ def load_data(url):
         st.error(f"Error loading data from URL: {e}")
         return pd.DataFrame() # Return an empty DataFrame on failure
 
-url = 'https://raw.githubusercontent.com/nurulaina02/EC2024/386823d030273aafee874bee9256e4e702b986d4/student_survey_cleaned.csv
+url = 'https://raw.githubusercontent.com/nurulaina02/EC2024/refs/heads/main/student_survey_cleaned.csv'
 arts_df = load_data(url)
 
 # Set the title of the Streamlit app
