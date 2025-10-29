@@ -1,31 +1,33 @@
-import streamlit as st
-
-# Add a banner image at the top
-banner_image = 'https://raw.githubusercontent.com/fakhitah3/FHPK-TVET/main/3u1i.jpeg' 
-st.image(banner_image, use_container_width=True)
-
-# Add the main introduction paragraph
-st.write(
-    """
-    *Scientific Visualization* is a multidisciplinary field that focuses on transforming complex scientific data into visual forms that are easier to understand, interpret, and communicate. 
-    Through the use of computational techniques, visualization helps researchers explore datasets, identify hidden patterns, and gain insights that would otherwise remain obscure in numerical form.
-    """
+col1, col2, col3, col4 = st.columns(4)
+ 
+# 1. Average Depression Score (Overall Severity)
+col1.metric(
+    label="Avg. Depression Score", 
+    value="14.6", 
+    help="Average Depression Score across all respondents.", 
+    border=True
 )
 
-banner_image = 'https://raw.githubusercontent.com/fakhitah3/FHPK-TVET/main/3u1i_2.jpeg' 
-st.image(banner_image, use_container_width=True)
+# 2. Mental Health Support Prevalence
+col2.metric(
+    label="Support Prevalence", 
+    value="22.5%", 
+    help="Percentage of respondents who utilize Mental Health Support.", 
+    border=True
+)
 
-# Add the extended explanation
-st.write(
-    """
-    The aim of scientific visualization is not merely to present data attractively, but to *enhance comprehension and decision-making* through visual analytics. 
-    Applications span across disciplines such as *climate science, **medicine, **engineering, **data science, and **environmental studies*.
+# 3. Average Sleep Hours (Key Lifestyle Factor)
+col3.metric(
+    label="Avg. Sleep Hours", 
+    value="6.5 hrs", 
+    help="Average reported daily Sleep Hours (Adequate sleep is typically 7-8 hours).", 
+    border=True
+)
 
-    In this course or module, students will learn to:
-    - Select relevant datasets for analysis and visualization.
-    - Apply various visualization techniques such as graphs, maps, and 3D models.
-    - Interpret visual outputs to support scientific conclusions and policy recommendations.
-    
-    By the end of this exercise, students should be able to produce *informative, accurate, and interactive visualizations* that effectively communicate scientific findings to both expert and non-expert audiences.
-    """
+# 4. Prevalence of High Severity
+col4.metric(
+    label="High Severity (Score ≥ 8)", 
+    value="72.4%", 
+    help="Percentage of respondents with a Depression Score of 8 or higher (indicating high severity).", 
+    border=True
 )
