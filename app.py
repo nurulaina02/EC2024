@@ -33,7 +33,7 @@ col4.metric(label="PLO 5", value=f"4.3", help="PLO 5: Communication Skill", bord
 
 # Load your data
 try:
-    df2 = pd.read_csv('https://raw.githubusercontent.com/S23B0121-AqifAddin/assignment1/refs/heads/main/bangladesh_motorbikeaccidents.csv', encoding='utf-8')
+    df2 = pd.read_csv('https://raw.githubusercontent.com/nurulaina02/EC2024/refs/heads/main/Mental%20Health%20Classification.csv', encoding='utf-8')
 except UnicodeDecodeError:
-    df2 = pd.read_csv('https://raw.githubusercontent.com/S23B0121-AqifAddin/assignment1/refs/heads/main/bangladesh_motorbikeaccidents.csv', encoding='latin-1')
+    df2 = pd.read_csv('https://raw.githubusercontent.com/nurulaina02/EC2024/refs/heads/main/Mental%20Health%20Classification.csv', encoding='latin-1')
 df2
