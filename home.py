@@ -27,5 +27,5 @@ st.write(
     - Interpret visual outputs to support scientific conclusions and policy recommendations.
     
     By the end of this exercise, students should be able to produce *informative, accurate, and interactive visualizations* that effectively communicate scientific findings to both expert and non-expert audiences.
-    """
+    """
 )
