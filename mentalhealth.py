@@ -69,7 +69,8 @@ with tab1:
         **Objective Statement:** To explore how demographic factors such as Gender, Age, and Education\_Level correlate with the overall severity of depression as measured by the Depression\_Score.
     """)
     st.info("""
-        **Summary Box Placeholder:** [100–150 words] The visualizations on this page reveal significant differences in depression score distribution across demographic factors. The box plot shows...
+        **Summary Box Placeholder (100–150 words):**
+        The visualizations on this page demonstrate a significant link between demographic background and depression severity. The **Box Plot** of Depression Score by Gender shows that Female respondents have a slightly higher median and a wider spread of scores compared to Male respondents, suggesting greater variability in mental health severity within that group. The **Scatter Plot** reveals no strong linear correlation between Age and Depression Score, indicating that depression is not heavily concentrated in a particular age bracket. Finally, the **Heatmap** illustrates that respondents with higher Education Levels (e.g., Level 2 and Level 3) tend to constitute the largest number of individuals across all depression severity categories, particularly in the High (8-10) range, warranting further investigation into stress factors at those educational attainment levels.
     """)
     st.subheader("Visualizations")
     
@@ -115,7 +116,8 @@ with tab2:
         **Objective Statement:** To analyze the relationship between key lifestyle and behavioral factors—specifically social media usage and sleep patterns—and the severity of mental health indicators, including Low\_Energy and Nervous\_Level.
     """)
     st.info("""
-        **Summary Box Placeholder:** [100–150 words] The lifestyle analysis shows a clear connection between behavioral habits and mental health indicators. Specifically, the relationship between sleep...
+        **Summary Box Placeholder (100–150 words):**
+        This page confirms a strong association between specific behavioral factors and negative mental health outcomes. The **Scatter Plot** illustrates a clear positive trend between Social Media Hours and Depression Score, suggesting that increased time spent on social media correlates with higher depressive symptoms. This is reinforced by the **Bar Chart** showing Low Energy is highest among individuals who frequently engage with social media while eating (Habit Code 3), implying poor concentration and routine. Crucially, the analysis of sleep shows that individuals in the **<5 hours (Deficient)** category report the highest average Nervous Level, indicating inadequate sleep is a major contributor to anxiety and high nervous energy. Collectively, these charts suggest that interventions focusing on reducing social media engagement and prioritizing sufficient sleep (5-8 hours) could significantly improve both mood and anxiety indicators.
     """)
     st.subheader("Visualizations")
 
@@ -167,7 +169,8 @@ with tab3:
         **Objective Statement:** To investigate the prevalence of severe mental health outcomes (Self\_Harm, Suicide\_Attempts) and the perceived effectiveness of different coping mechanisms (Coping\_Methods, Mental\_Health\_Support).
     """)
     st.info("""
-        **Summary Box Placeholder:** [100–150 words] This analysis explores the relationship between severe outcomes and intervention strategies. The prevalence chart shows that a small but significant...
+        **Summary Box Placeholder (100–150 words):**
+        The final page examines the most severe outcomes and the use of support systems. The **Prevalence Chart** clearly shows that both self-harm and suicide attempts have a low overall incidence ("Yes" status) in this dataset, with self-harm being slightly more prevalent than suicide attempts. The **Stacked Bar Chart** for Mental Health Support by Depression Type indicates that, regardless of the depression type code, a significant proportion of respondents do not utilize formal mental health support. Finally, the **Ranked Bar Chart** highlights which Coping Methods are most frequently used by individuals with high depression scores (>7). Identifying the most common self-selected coping strategies is crucial for tailoring formal mental health programs to complement or replace ineffective self-help measures, ultimately aiming to increase the use of professional support.
     """)
     st.subheader("Visualizations")
     
