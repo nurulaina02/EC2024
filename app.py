@@ -33,8 +33,6 @@ def load_data(file_path):
     df['Education_Level_Label'] = df['Education_Level'].map(edu_map).fillna('Unknown')
     
     # 5. Binning Depression_Score for Severity
-    # Note: These bins assume a max score of 10 based on labels, but the data showed scores up to 29. 
-    # Using the original bins as provided, max score will be clipped at the highest label (10).
     bins = [0, 4, 7, 30] # Adjusted max bin to 30 to cover all data points
     labels = ['Low (0-4)', 'Medium (5-7)', 'High (>7)'] # Adjusted label for clarity
     df['Depression_Severity'] = pd.cut(df['Depression_Score'], bins=bins, labels=labels, right=True, include_lowest=True)
@@ -55,61 +53,20 @@ st.sidebar.title("Visualization Objectives")
 page = st.sidebar.radio(
     "Select Report Section:",
     [
-        "Objective 1: Demographic Analysis",
-        "Objective 2: Lifestyle Impact",
-        "Objective 3: Intervention Analysis"
+        "Page 1: Demographic Analysis",
+        "Page 2: Lifestyle Impact",
+        "Page 3: Intervention Analysis"
     ]
 )
 
-# --- Main Page Title and Overview Metrics ---
+# --- Main Page Title ---
 
 st.title("JIE42403 Scientific Visualisation Report: Mental Health Factors Analysis")
 st.markdown("---")
 
-st.subheader("Key Findings Snapshot")
+# --- CONTENT BLOCKS BASED ON SIDEBAR SELECTION ---
 
-col1, col2, col3, col4 = st.columns(4)
- 
-# 1. Average Depression Score (Overall Severity)
-col1.metric(
-    label="Avg. Depression Score", 
-    value="14.6", 
-    help="Average Depression Score across all respondents.", 
-    border=True
-)
-
-# 2. Mental Health Support Prevalence
-col2.metric(
-    label="Support Prevalence", 
-    value="22.5%", 
-    help="Percentage of respondents who utilize Mental Health Support.", 
-    border=True
-)
-
-# 3. Average Sleep Hours (Key Lifestyle Factor)
-col3.metric(
-    label="Avg. Sleep Hours", 
-    value="6.5 hrs", 
-    help="Average reported daily Sleep Hours (Adequate sleep is typically 7-8 hours).", 
-    border=True
-)
-
-# 4. Prevalence of High Severity
-col4.metric(
-    label="High Severity (Score ≥ 8)", 
-    value="72.4%", 
-    help="Percentage of respondents with a Depression Score of 8 or higher (indicating high severity).", 
-    border=True
-)
-
-st.markdown("---")
-
-
-# ----------------------------------------------------------------------
-# CONTENT BLOCKS BASED ON SIDEBAR SELECTION
-# ----------------------------------------------------------------------
-
-if page == "Objective 1: Demographic Analysis":
+if page == "Page 1: Demographic Analysis":
     st.header("Objective 1: Demographic and Core Score Analysis")
     st.markdown("""
         **Objective Statement:** To explore how demographic factors such as Gender, Age, and Education\_Level correlate with the overall severity of depression as measured by the Depression\_Score.
@@ -156,7 +113,7 @@ if page == "Objective 1: Demographic Analysis":
     """)
 
 
-elif page == "Objective 2: Lifestyle Impact":
+elif page == "Page 2: Lifestyle Impact":
     st.header("Objective 2: Lifestyle and Behavioral Impact")
     st.markdown("""
         **Objective Statement:** To analyze the relationship between key lifestyle and behavioral factors—specifically social media usage and sleep patterns—and the severity of mental health indicators, including Low\_Energy and Nervous\_Level.
@@ -209,7 +166,7 @@ elif page == "Objective 2: Lifestyle Impact":
     """)
 
 
-elif page == "Objective 3: Intervention Analysis":
+elif page == "Page 3: Intervention Analysis":
     st.header("Objective 3: Severity and Intervention Analysis")
     st.markdown("""
         **Objective Statement:** To investigate the prevalence of severe mental health outcomes (Self\_Harm, Suicide\_Attempts) and the perceived effectiveness of different coping mechanisms (Coping\_Methods, Mental\_Health\_Support).
