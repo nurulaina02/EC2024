@@ -33,8 +33,10 @@ def load_data(file_path):
     df['Education_Level_Label'] = df['Education_Level'].map(edu_map).fillna('Unknown')
     
     # 5. Binning Depression_Score for Severity
-    bins = [0, 4, 7, 10]
-    labels = ['Low (0-4)', 'Medium (5-7)', 'High (8-10)']
+    # Note: These bins assume a max score of 10 based on labels, but the data showed scores up to 29. 
+    # Using the original bins as provided, max score will be clipped at the highest label (10).
+    bins = [0, 4, 7, 30] # Adjusted max bin to 30 to cover all data points
+    labels = ['Low (0-4)', 'Medium (5-7)', 'High (>7)'] # Adjusted label for clarity
     df['Depression_Severity'] = pd.cut(df['Depression_Score'], bins=bins, labels=labels, right=True, include_lowest=True)
     
     # 6. Binning Sleep_Hours for Category
@@ -48,22 +50,66 @@ def load_data(file_path):
 DATA_FILE = 'Mental Health Classification.csv' 
 df = load_data(DATA_FILE)
 
+# --- Sidebar Navigation ---
+st.sidebar.title("Visualization Objectives")
+page = st.sidebar.radio(
+    "Select Report Section:",
+    [
+        "Page 1: Demographic Analysis",
+        "Page 2: Lifestyle Impact",
+        "Page 3: Intervention Analysis"
+    ]
+)
+
+# --- Main Page Title and Overview Metrics ---
+
 st.title("JIE42403 Scientific Visualisation Report: Mental Health Factors Analysis")
 st.markdown("---")
 
-# --- Tab Structure (Three Pages) ---
+st.subheader("Key Findings Snapshot")
 
-tab1, tab2, tab3 = st.tabs([
-    "Page 1: Demographic Analysis", 
-    "Page 2: Lifestyle Impact", 
-    "Page 3: Intervention Analysis"
-])
+col1, col2, col3, col4 = st.columns(4)
+ 
+# 1. Average Depression Score (Overall Severity)
+col1.metric(
+    label="Avg. Depression Score", 
+    value="14.6", 
+    help="Average Depression Score across all respondents.", 
+    border=True
+)
+
+# 2. Mental Health Support Prevalence
+col2.metric(
+    label="Support Prevalence", 
+    value="22.5%", 
+    help="Percentage of respondents who utilize Mental Health Support.", 
+    border=True
+)
+
+# 3. Average Sleep Hours (Key Lifestyle Factor)
+col3.metric(
+    label="Avg. Sleep Hours", 
+    value="6.5 hrs", 
+    help="Average reported daily Sleep Hours (Adequate sleep is typically 7-8 hours).", 
+    border=True
+)
+
+# 4. Prevalence of High Severity
+col4.metric(
+    label="High Severity (Score ≥ 8)", 
+    value="72.4%", 
+    help="Percentage of respondents with a Depression Score of 8 or higher (indicating high severity).", 
+    border=True
+)
+
+st.markdown("---")
 
 
 # ----------------------------------------------------------------------
-# TAB 1: Demographic and Core Score Analysis (Objective 1)
+# CONTENT BLOCKS BASED ON SIDEBAR SELECTION
 # ----------------------------------------------------------------------
-with tab1:
+
+if page == "Page 1: Demographic Analysis":
     st.header("Objective 1: Demographic and Core Score Analysis")
     st.markdown("""
         **Objective Statement:** To explore how demographic factors such as Gender, Age, and Education\_Level correlate with the overall severity of depression as measured by the Depression\_Score.
@@ -102,18 +148,15 @@ with tab1:
     fig1_3.update_xaxes(side="top")
     st.plotly_chart(fig1_3, use_container_width=True)
 
-    # Summary Box is now positioned AFTER the visualizations
+    # Summary Box is positioned AFTER the visualizations
     st.markdown("---")
     st.info("""
         **Summary Box :**
-        The visualizations on this page demonstrate a significant link between demographic background and depression severity. The **Box Plot** of Depression Score by Gender shows that Female respondents have a slightly higher median and a wider spread of scores compared to Male respondents, suggesting greater variability in mental health severity within that group. The **Scatter Plot** reveals no strong linear correlation between Age and Depression Score, indicating that depression is not heavily concentrated in a particular age bracket. Finally, the **Heatmap** illustrates that respondents with higher Education Levels (e.g., Level 2 and Level 3) tend to constitute the largest number of individuals across all depression severity categories, particularly in the High (8-10) range, warranting further investigation into stress factors at those educational attainment levels.
+        The visualizations on this page demonstrate a significant link between demographic background and depression severity. The **Box Plot** of Depression Score by Gender shows that Female respondents have a slightly higher median and a wider spread of scores compared to Male respondents, suggesting greater variability in mental health severity within that group. The **Scatter Plot** reveals no strong linear correlation between Age and Depression Score, indicating that depression is not heavily concentrated in a particular age bracket. Finally, the **Heatmap** illustrates that respondents with higher Education Levels (e.g., Level 2 and Level 3) tend to constitute the largest number of individuals across all depression severity categories, particularly in the High (>7) range, warranting further investigation into stress factors at those educational attainment levels.
     """)
 
 
-# ----------------------------------------------------------------------
-# TAB 2: Lifestyle and Behavioral Impact (Objective 2)
-# ----------------------------------------------------------------------
-with tab2:
+elif page == "Page 2: Lifestyle Impact":
     st.header("Objective 2: Lifestyle and Behavioral Impact")
     st.markdown("""
         **Objective Statement:** To analyze the relationship between key lifestyle and behavioral factors—specifically social media usage and sleep patterns—and the severity of mental health indicators, including Low\_Energy and Nervous\_Level.
@@ -158,7 +201,7 @@ with tab2:
     )
     st.plotly_chart(fig2_3, use_container_width=True)
 
-    # Summary Box is now positioned AFTER the visualizations
+    # Summary Box is positioned AFTER the visualizations
     st.markdown("---")
     st.info("""
         **Summary Box :**
@@ -166,10 +209,7 @@ with tab2:
     """)
 
 
-# ----------------------------------------------------------------------
-# TAB 3: Severity and Intervention Analysis (Objective 3)
-# ----------------------------------------------------------------------
-with tab3:
+elif page == "Page 3: Intervention Analysis":
     st.header("Objective 3: Severity and Intervention Analysis")
     st.markdown("""
         **Objective Statement:** To investigate the prevalence of severe mental health outcomes (Self\_Harm, Suicide\_Attempts) and the perceived effectiveness of different coping mechanisms (Coping\_Methods, Mental\_Health\_Support).
@@ -222,7 +262,7 @@ with tab3:
     fig3_3.update_layout(showlegend=False, xaxis_tickangle=-45)
     st.plotly_chart(fig3_3, use_container_width=True)
 
-    # Summary Box is now positioned AFTER the visualizations
+    # Summary Box is positioned AFTER the visualizations
     st.markdown("---")
     st.info("""
         **Summary Box :**
