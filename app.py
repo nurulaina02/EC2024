@@ -61,7 +61,7 @@ page = st.sidebar.radio(
 
 # --- Main Page Title ---
 
-st.title("JIE42403 Scientific Visualisation Report: Mental Health Factors Analysis")
+st.title("Mental Health Classification Analysis")
 st.markdown("---")
 
 # --- CONTENT BLOCKS BASED ON SIDEBAR SELECTION ---
