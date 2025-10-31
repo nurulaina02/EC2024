@@ -109,7 +109,7 @@ st.markdown("---")
 # CONTENT BLOCKS BASED ON SIDEBAR SELECTION
 # ----------------------------------------------------------------------
 
-if page == "Page 1: Demographic Analysis":
+if page == "Objective 1: Demographic Analysis":
     st.header("Objective 1: Demographic and Core Score Analysis")
     st.markdown("""
         **Objective Statement:** To explore how demographic factors such as Gender, Age, and Education\_Level correlate with the overall severity of depression as measured by the Depression\_Score.
@@ -156,7 +156,7 @@ if page == "Page 1: Demographic Analysis":
     """)
 
 
-elif page == "Page 2: Lifestyle Impact":
+elif page == "Objective 2: Lifestyle Impact":
     st.header("Objective 2: Lifestyle and Behavioral Impact")
     st.markdown("""
         **Objective Statement:** To analyze the relationship between key lifestyle and behavioral factors—specifically social media usage and sleep patterns—and the severity of mental health indicators, including Low\_Energy and Nervous\_Level.
@@ -209,7 +209,7 @@ elif page == "Page 2: Lifestyle Impact":
     """)
 
 
-elif page == "Page 3: Intervention Analysis":
+elif page == "Objective 3: Intervention Analysis":
     st.header("Objective 3: Severity and Intervention Analysis")
     st.markdown("""
         **Objective Statement:** To investigate the prevalence of severe mental health outcomes (Self\_Harm, Suicide\_Attempts) and the perceived effectiveness of different coping mechanisms (Coping\_Methods, Mental\_Health\_Support).
