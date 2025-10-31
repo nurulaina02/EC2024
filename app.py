@@ -55,9 +55,9 @@ st.sidebar.title("Visualization Objectives")
 page = st.sidebar.radio(
     "Select Report Section:",
     [
-        "Page 1: Demographic Analysis",
-        "Page 2: Lifestyle Impact",
-        "Page 3: Intervention Analysis"
+        "Objective 1: Demographic Analysis",
+        "Objective 2: Lifestyle Impact",
+        "Objective 3: Intervention Analysis"
     ]
 )
 
