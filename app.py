@@ -86,7 +86,7 @@ if page == "Page 1: Demographic Analysis":
     # V1.2: Depression Score vs. Age (Scatter Plot with trend line)
     fig1_2 = px.scatter(
         df, x='Age', y='Depression_Score', trendline="ols",
-        title='1.2: Depression Score vs. Age (with OLS Trendline)',
+        title='1.2: Depression Score vs. Age (Scatter Plot with trend line)',
         labels={'Age': 'Age', 'Depression_Score': 'Depression Score'},
         opacity=0.5
     )
